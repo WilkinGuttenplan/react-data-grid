@@ -1,13 +1,13 @@
 {
-  "name": "react-data-grid",
-  "version": "7.0.0-beta.19",
+  "name": "react-data-grid-fork",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Feature-rich and customizable data grid React component",
   "keywords": [
     "react",
     "data grid"
   ],
-  "repository": "github:adazzle/react-data-grid",
+  "repository": "https://github.com/WilkinGuttenplan/react-data-grid-fork",
   "bugs": "https://github.com/adazzle/react-data-grid/issues",
   "type": "module",
   "exports": {
