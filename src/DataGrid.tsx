@@ -195,6 +195,7 @@ function DataGrid<R, SR, K extends Key>(
   props: DataGridProps<R, SR, K>,
   ref: React.Ref<DataGridHandle>
 ) {
+  console.log('testestestest');
   const {
     // Grid and data Props
     columns: rawColumns,
