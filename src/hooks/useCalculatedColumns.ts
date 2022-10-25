@@ -4,7 +4,7 @@ import type { CalculatedColumn, Column, Maybe } from '../types';
 import type { DataGridProps } from '../DataGrid';
 import { valueFormatter, toggleGroupFormatter } from '../formatters';
 import { SELECT_COLUMN_KEY } from '../Columns';
-import { clampColumnWidth, max, min } from '../utils';
+import { clampColumnWidth} from '../utils'; // WG-EDIT: REMOVE -> , max, min
 
 type Mutable<T> = {
   -readonly [P in keyof T]: T[P];
@@ -185,49 +185,50 @@ export function useCalculatedColumns<R, SR>({
   }, [columnWidths, columns, lastFrozenColumnIndex]);
 
   const [colOverscanStartIdx, colOverscanEndIdx] = useMemo((): [number, number] => {
-    if (!enableVirtualization) {
+    // WG-EDIT: REMOVE -> if (!enableVirtualization) {
       return [0, columns.length - 1];
-    }
+
+    // WG-EDIT: REMOVE ->  }
     // get the viewport's left side and right side positions for non-frozen columns
-    const viewportLeft = scrollLeft + totalFrozenColumnWidth;
-    const viewportRight = scrollLeft + viewportWidth;
-    // get first and last non-frozen column indexes
-    const lastColIdx = columns.length - 1;
-    const firstUnfrozenColumnIdx = min(lastFrozenColumnIndex + 1, lastColIdx);
-
-    // skip rendering non-frozen columns if the frozen columns cover the entire viewport
-    if (viewportLeft >= viewportRight) {
-      return [firstUnfrozenColumnIdx, firstUnfrozenColumnIdx];
-    }
-
-    // get the first visible non-frozen column index
-    let colVisibleStartIdx = firstUnfrozenColumnIdx;
-    while (colVisibleStartIdx < lastColIdx) {
-      const { left, width } = columnMetrics.get(columns[colVisibleStartIdx])!;
-      // if the right side of the columnn is beyond the left side of the available viewport,
-      // then it is the first column that's at least partially visible
-      if (left + width > viewportLeft) {
-        break;
-      }
-      colVisibleStartIdx++;
-    }
-
-    // get the last visible non-frozen column index
-    let colVisibleEndIdx = colVisibleStartIdx;
-    while (colVisibleEndIdx < lastColIdx) {
-      const { left, width } = columnMetrics.get(columns[colVisibleEndIdx])!;
-      // if the right side of the column is beyond or equal to the right side of the available viewport,
-      // then it the last column that's at least partially visible, as the previous column's right side is not beyond the viewport.
-      if (left + width >= viewportRight) {
-        break;
-      }
-      colVisibleEndIdx++;
-    }
-
-    const colOverscanStartIdx = max(firstUnfrozenColumnIdx, colVisibleStartIdx - 1);
-    const colOverscanEndIdx = min(lastColIdx, colVisibleEndIdx + 1);
-
-    return [colOverscanStartIdx, colOverscanEndIdx];
+    // const viewportLeft = scrollLeft + totalFrozenColumnWidth;
+    // const viewportRight = scrollLeft + viewportWidth;
+    // // get first and last non-frozen column indexes
+    // const lastColIdx = columns.length - 1;
+    // const firstUnfrozenColumnIdx = min(lastFrozenColumnIndex + 1, lastColIdx);
+    //
+    // // skip rendering non-frozen columns if the frozen columns cover the entire viewport
+    // if (viewportLeft >= viewportRight) {
+    //   return [firstUnfrozenColumnIdx, firstUnfrozenColumnIdx];
+    // }
+    //
+    // // get the first visible non-frozen column index
+    // let colVisibleStartIdx = firstUnfrozenColumnIdx;
+    // while (colVisibleStartIdx < lastColIdx) {
+    //   const { left, width } = columnMetrics.get(columns[colVisibleStartIdx])!;
+    //   // if the right side of the columnn is beyond the left side of the available viewport,
+    //   // then it is the first column that's at least partially visible
+    //   if (left + width > viewportLeft) {
+    //     break;
+    //   }
+    //   colVisibleStartIdx++;
+    // }
+    //
+    // // get the last visible non-frozen column index
+    // let colVisibleEndIdx = colVisibleStartIdx;
+    // while (colVisibleEndIdx < lastColIdx) {
+    //   const { left, width } = columnMetrics.get(columns[colVisibleEndIdx])!;
+    //   // if the right side of the column is beyond or equal to the right side of the available viewport,
+    //   // then it the last column that's at least partially visible, as the previous column's right side is not beyond the viewport.
+    //   if (left + width >= viewportRight) {
+    //     break;
+    //   }
+    //   colVisibleEndIdx++;
+    // }
+    //
+    // const colOverscanStartIdx = max(firstUnfrozenColumnIdx, colVisibleStartIdx - 1);
+    // const colOverscanEndIdx = min(lastColIdx, colVisibleEndIdx + 1);
+    //
+    // return [colOverscanStartIdx, colOverscanEndIdx]; <- REMOVE :WG-EDIT
   }, [
     columnMetrics,
     columns,
