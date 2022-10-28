@@ -56,7 +56,7 @@ export default function HeaderCell<R, SR>({
   direction
 }: HeaderCellProps<R, SR>) {
   const isRtl = direction === 'rtl';
-  const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  const { ref, onFocus } = useRovingCellRef(false); // WG REMOVED -> (isCellSelected)
   const sortIndex = sortColumns?.findIndex((sort) => sort.columnKey === column.key);
   const sortColumn =
     sortIndex !== undefined && sortIndex > -1 ? sortColumns![sortIndex] : undefined;
@@ -170,12 +170,12 @@ export default function HeaderCell<R, SR>({
     <div
       role="columnheader"
       aria-colindex={column.idx + 1}
-      aria-selected={isCellSelected}
+      aria-selected={false} // WG REMOVED -> {isCellSelected}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
       ref={ref}
       // set the tabIndex to 0 when there is no selected cell so grid can receive focus
-      tabIndex={shouldFocusGrid ? 0 : tabIndex}
+      tabIndex={-1} // WG REMOVED -> {shouldFocusGrid ? 0 : tabIndex}
       className={className}
       style={getCellStyle(column, colSpan)}
       onFocus={handleFocus}
@@ -190,7 +190,7 @@ export default function HeaderCell<R, SR>({
         onSort,
         allRowsSelected,
         onAllRowsSelectionChange,
-        isCellSelected
+        isCellSelected: false  // WG REMOVED -> isCellSelected
       })}
     </div>
   );
